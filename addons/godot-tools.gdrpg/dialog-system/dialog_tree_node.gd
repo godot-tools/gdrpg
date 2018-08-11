@@ -1,6 +1,6 @@
 extends Node
 
-const Importer = preload("res://addons/godot-tools.gdrpg/dialog-system/dialog_node_importer.gd")
+const Importer = preload("res://addons/godot-tools.gdrpg/dialog-system/dialog_node_json_importer.gd")
 
 export(String, FILE, "*.dt ; DialogTree files") var tree_path
 

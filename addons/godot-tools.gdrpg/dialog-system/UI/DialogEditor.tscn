@@ -5,8 +5,6 @@
 [ext_resource path="res://addons/godot-tools.gdrpg/dialog-system/UI/SetTextDialog.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/godot-tools.gdrpg/dialog-system/UI/NewNodePopup.tscn" type="PackedScene" id=4]
 
-
-
 [node name="DialogEditor" type="GraphEdit" index="0"]
 
 anchor_left = 0.0
@@ -49,6 +47,6 @@ visible = false
 
 visible = false
 margin_bottom = 122.0
-items = [ "New Speech Node", null, false, false, false, -1, 0, null, "", false ]
+items = [ "New Speech Node", null, 0, false, false, -1, 0, null, "", false ]
 
 

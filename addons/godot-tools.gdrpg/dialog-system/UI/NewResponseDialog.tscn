@@ -2,9 +2,7 @@
 
 [ext_resource path="res://addons/godot-tools.gdrpg/dialog-system/UI/new_resp_dialog.gd" type="Script" id=1]
 
-
-
-[node name="NewResponseDialog" type="WindowDialog"]
+[node name="NewResponseDialog" type="WindowDialog" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -29,7 +27,6 @@ _sections_unfolded = [ "Popup", "Rect", "Size Flags" ]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." index="1"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -37,7 +34,7 @@ anchor_bottom = 0.0
 margin_left = 6.0
 margin_top = 8.0
 margin_right = 350.0
-margin_bottom = 92.0
+margin_bottom = 201.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -47,7 +44,7 @@ size_flags_vertical = 3
 alignment = 0
 _sections_unfolded = [ "Rect", "Size Flags" ]
 
-[node name="Text" type="HBoxContainer" parent="VBoxContainer" index="0"]
+[node name="ID" type="HBoxContainer" parent="VBoxContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -64,13 +61,13 @@ size_flags_vertical = 1
 alignment = 0
 _sections_unfolded = [ "Size Flags" ]
 
-[node name="Label" type="Label" parent="VBoxContainer/Text" index="0"]
+[node name="Label" type="Label" parent="VBoxContainer/ID" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 27.0
+margin_right = 19.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -78,20 +75,20 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 3
-text = "Text"
+text = "ID:"
 valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Size Flags" ]
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/Text" index="1"]
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/ID" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 31.0
+margin_left = 23.0
 margin_right = 344.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
@@ -110,15 +107,80 @@ caret_blink_speed = 0.65
 caret_position = 0
 _sections_unfolded = [ "Placeholder", "Size Flags" ]
 
-[node name="Conditions" type="VBoxContainer" parent="VBoxContainer" index="1"]
+[node name="Text" type="HBoxContainer" parent="VBoxContainer" index="1"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 28.0
 margin_right = 344.0
-margin_bottom = 84.0
+margin_bottom = 52.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+_sections_unfolded = [ "Size Flags" ]
+
+[node name="Label" type="Label" parent="VBoxContainer/Text" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 31.0
+margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 3
+text = "Text:"
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Size Flags" ]
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/Text" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 35.0
+margin_right = 344.0
+margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 1
+size_flags_horizontal = 3
+size_flags_vertical = 1
+focus_mode = 2
+context_menu_enabled = true
+placeholder_text = "Enter a string to display or a translation ID."
+placeholder_alpha = 0.6
+caret_blink = false
+caret_blink_speed = 0.65
+caret_position = 0
+_sections_unfolded = [ "Placeholder", "Size Flags" ]
+
+[node name="Conditions" type="VBoxContainer" parent="VBoxContainer" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 56.0
+margin_right = 344.0
+margin_bottom = 193.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -130,6 +192,7 @@ _sections_unfolded = [ "Size Flags" ]
 
 [node name="ConditionsHeader" type="HBoxContainer" parent="VBoxContainer/Conditions" index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -189,7 +252,7 @@ group = null
 text = "+"
 flat = false
 align = 1
-items = [ "Variable", null, false, false, false, -1, 0, null, "", false, "Script", null, false, false, false, -1, 0, null, "", false ]
+items = [ "Variable", null, 0, false, false, -1, 0, null, "", false, "Script", null, 0, false, false, -1, 0, null, "", false ]
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer/Conditions" index="1"]
 
@@ -228,17 +291,15 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="." index="2"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Conditions" index="3"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 6.0
-margin_top = 65.0
-margin_right = 350.0
-margin_bottom = 199.0
+margin_top = 50.0
+margin_right = 344.0
+margin_bottom = 137.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = true
 mouse_filter = 0
@@ -249,16 +310,17 @@ scroll_horizontal_enabled = false
 scroll_horizontal = 0
 scroll_vertical_enabled = true
 scroll_vertical = 0
+scroll_deadzone = 0
 _sections_unfolded = [ "Rect", "Scroll", "Size Flags" ]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Conditions/ScrollContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 344.0
-margin_bottom = 134.0
+margin_bottom = 87.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -268,7 +330,7 @@ size_flags_vertical = 3
 alignment = 0
 _sections_unfolded = [ "Size Flags" ]
 
-[node name="ButtonBar" type="HBoxContainer" parent="." index="3"]
+[node name="ButtonBar" type="HBoxContainer" parent="." index="2"]
 
 editor/display_folded = true
 anchor_left = 0.0
@@ -277,7 +339,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 6.0
 margin_top = 208.0
-margin_right = 267.0
+margin_right = 350.0
 margin_bottom = 228.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -286,7 +348,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 2
-_sections_unfolded = [ "Anchor", "Size Flags" ]
+_sections_unfolded = [ "Anchor", "Focus", "Rect", "Size Flags" ]
 
 [node name="Okay" type="Button" parent="ButtonBar" index="0"]
 
@@ -294,8 +356,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 159.0
-margin_right = 203.0
+margin_left = 242.0
+margin_right = 286.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -319,8 +381,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 207.0
-margin_right = 261.0
+margin_left = 290.0
+margin_right = 344.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -337,7 +399,7 @@ text = "Cancel"
 flat = false
 align = 1
 
-[node name="FileDialog" type="FileDialog" parent="." index="4"]
+[node name="FileDialog" type="FileDialog" parent="." index="3"]
 
 visible = false
 anchor_left = 0.0
@@ -354,7 +416,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 popup_exclusive = true
-window_title = "Open Script"
+window_title = "Open a File"
 resizable = true
 dialog_hide_on_ok = false
 mode_overrides_title = true

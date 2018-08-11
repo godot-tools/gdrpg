@@ -4,8 +4,8 @@ extends GraphEdit
 
 const DNode = preload("res://addons/godot-tools.gdrpg/dialog-system/dnode.gd")
 const SpeechNode = preload("res://addons/godot-tools.gdrpg/dialog-system/UI/SpeechNode.tscn")
-const Exporter = preload("res://addons/godot-tools.gdrpg/dialog-system/dialog_node_exporter.gd")
-const Importer = preload("res://addons/godot-tools.gdrpg/dialog-system/dialog_node_importer.gd")
+const Exporter = preload("res://addons/godot-tools.gdrpg/dialog-system/dialog_node_json_exporter.gd")
+const Importer = preload("res://addons/godot-tools.gdrpg/dialog-system/dialog_node_json_importer.gd")
 
 
 onready var _root = get_node("DialogRoot")
@@ -17,7 +17,7 @@ func _ready():
 	_context_menu.connect("id_pressed", self, "_on_new_node")
 	connect("connection_request", self, "_connection_request")
 	connect("disconnection_request", self, "_disconnect_request")
-	set_dnode(DNode.new(_root.name, Vector2(100, 80)))
+	set_dnode(DNode.new(_root.title, _root.name, Vector2(100, 80)))
 	
 
 func set_dnode(dnode):
@@ -66,7 +66,7 @@ func _new_speech_node(dnode=null):
 	var node = SpeechNode.instance()
 	add_child(node)
 	if not dnode:
-		dnode = DNode.new(node.name, Vector2(400, 100))
+		dnode = DNode.new("", node.name, Vector2(400, 100))
 	node.dnode = dnode
 	return node
 
@@ -139,7 +139,7 @@ func _set_tree_path(val):
 	if f.file_exists(val):
 		_load(val)
 	else:
-		set_dnode(DNode.new(_root.name, Vector2(100, 80)))
+		set_dnode(DNode.new("", _root.name, Vector2(100, 80)))
 	f.close()
 
 func _load(path):

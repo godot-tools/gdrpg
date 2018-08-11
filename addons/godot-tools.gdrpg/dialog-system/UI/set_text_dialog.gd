@@ -8,13 +8,15 @@ const NewResponseDialog = preload("res://addons/godot-tools.gdrpg/dialog-system/
 var node setget _set_node
 
 onready var _say = get_node("VBoxContainer/Say/LineEdit")
-onready var _responses = get_node("ScrollContainer/VBoxContainer")
+onready var _id = get_node("VBoxContainer/ID/LineEdit")
+onready var _responses = get_node("VBoxContainer/Responses/ScrollContainer/VBoxContainer")
 onready var _no_responses = get_node("VBoxContainer/Responses/NoResponses")
 onready var _new_response = get_node("VBoxContainer/Responses/ResponseHeader/NewResponse")
 onready var _okay = get_node("ButtonBar/Okay")
 
 func _ready():
 	_okay.connect("pressed", self, "_okay")
+	_id.connect("text_changed", self, "_text_changed")
 	_say.connect("text_changed", self, "_text_changed")
 	_new_response.connect("pressed", self, "_new_response")
 	get_node("ButtonBar/Cancel").connect("pressed", self, "_cancel")
@@ -27,10 +29,11 @@ func add_response_row(row):
 	_responses.add_child(row)
 
 func _text_changed(new_text):
-	_okay.disabled = new_text.empty()
+	_okay.disabled = _say.text.empty() or _id.text.empty()
 
 func _set_node(val):
 	node = val
+	_id.text = node.id
 	_say.text = node.text
 	_populate_responses(node.get_responses())
 
@@ -49,6 +52,7 @@ func _okay():
 	hide()
 	get_parent().remove_child(self)
 	if node:
+		node.id = _id.text
 		node.text = _say.text
 		_add_responses_to_node()
 	queue_free()

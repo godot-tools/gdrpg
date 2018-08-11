@@ -2,12 +2,14 @@ tool
 
 const Condition = preload("res://addons/godot-tools.gdrpg/dialog-system/condition.gd")
 
-var trid = ""
+var id = ""
+var text = ""
 var cond_ops = []
 var child_idx = -1
 
-func _init(trid):
-	self.trid = trid
+func _init(id, text):
+	self.id = id
+	self.text = text
 	
 func add_condition(cond, op):
 	var cond_op = ConditionOp.new(cond, op)

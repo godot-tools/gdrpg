@@ -17,5 +17,5 @@ func _delete_pressed():
 
 func _set_resp(val):
 	response = val
-	_text.text = response.trid
+	_text.text = response.text
 	

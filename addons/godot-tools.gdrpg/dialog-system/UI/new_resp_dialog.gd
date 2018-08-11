@@ -8,8 +8,9 @@ const Response = preload("res://addons/godot-tools.gdrpg/dialog-system/response.
 const Condition = preload("res://addons/godot-tools.gdrpg/dialog-system/condition.gd")
 
 onready var _ok = get_node("ButtonBar/Okay")
+onready var _id = get_node("VBoxContainer/ID/LineEdit")
 onready var _text = get_node("VBoxContainer/Text/LineEdit")
-onready var _conditions = get_node("ScrollContainer/VBoxContainer")
+onready var _conditions = get_node("VBoxContainer/Conditions/ScrollContainer/VBoxContainer")
 onready var _new_condition = get_node("VBoxContainer/Conditions/ConditionsHeader/NewCondition")
 onready var _no_conditions = get_node("VBoxContainer/Conditions/NoConditions")
 onready var _file_dialog = get_node("FileDialog")
@@ -21,13 +22,14 @@ signal new_response
 
 func _ready():
 	_ok.connect("pressed", self, "_okay")
+	_id.connect("text_changed", self, "_text_changed")
 	_text.connect("text_changed", self, "_text_changed")
 	_new_condition.get_popup().connect("id_pressed", self, "_new_condition_pressed")
 	_file_dialog.connect("file_selected", self, "_file_selected")
 	get_node("ButtonBar/Cancel").connect("pressed", self, "_cancel")
 
 func _text_changed(new_text):
-	_ok.disabled = _text.text.empty()
+	_ok.disabled = _text.text.empty() or _id.text.empty()
 
 func _new_condition_pressed(id):
 	match id:
@@ -83,7 +85,8 @@ func set_response_row(resp_row):
 	var resp = _resp_row.response
 	if not resp:
 		return
-	_text.text = resp.trid
+	_id.text = resp.id
+	_text.text = resp.text
 	if _no_conditions.visible and not resp.cond_ops.empty():
 		_no_conditions.visible = false
 	for cond_op in resp.cond_ops:
@@ -97,7 +100,7 @@ func _new_condition_row(cond, op="AND"):
 	row.op = op
 	
 func _new_response():
-	var resp = Response.new(_text.text)
+	var resp = Response.new(_id.text, _text.text)
 	for child in _conditions.get_children():
 		if child.is_in_group("ConditionRow"):
 			resp.add_condition(child.condition, child.op)

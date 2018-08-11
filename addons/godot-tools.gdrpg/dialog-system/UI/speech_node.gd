@@ -7,6 +7,7 @@ const Slot = preload("res://addons/godot-tools.gdrpg/dialog-system/UI/Slot.tscn"
 
 onready var _say = get_node("Say")
 onready var _sep = get_node("HSeparator") 
+onready var id setget _set_id, _get_id
 onready var text = _say.text setget _set_text
 
 var dnode setget _set_dnode
@@ -111,12 +112,20 @@ func _set_dnode(val):
 	if dnode and dnode.name == val.name:
 		return 
 	dnode = val
+	_set_id(val.id)
 	_set_text(val.text)
 	name = val.name
 	offset = val.pos
 	for resp in val.responses:
 		add_response(resp, false)
-	
+
+func _set_id(val):
+	title = val
+	dnode.id = val
+
+func _get_id():
+	return title
+
 func _resize_request(new_minsize):
 	self.rect_size = new_minsize
 	

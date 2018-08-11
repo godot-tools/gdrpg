@@ -1,5 +1,6 @@
 tool
 
+var id = ""
 var name = ""
 var pos = Vector2()
 var text = ""
@@ -7,7 +8,8 @@ var responses = []
 var children = []
 var resp_indicies = []
 
-func _init(name, pos=Vector2(), text="", responses=[]):
+func _init(id, name, pos=Vector2(), text="", responses=[]):
+	self.id = id
 	self.name = name
 	self.pos = pos
 	self.text = text

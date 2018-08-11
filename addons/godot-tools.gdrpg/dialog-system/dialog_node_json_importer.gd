@@ -28,7 +28,7 @@ func _import_from_file(f):
 	return _build_dnode(d)
 
 func _build_dnode(d):
-		var dnode = DNode.new(d["name"])
+		var dnode = DNode.new(d["id"], d["name"])
 		dnode.text = d["text"]
 		dnode.pos.x = d["pos"]["x"]
 		dnode.pos.y = d["pos"]["y"]
@@ -40,7 +40,7 @@ func _build_dnode(d):
 		return dnode
 
 func _parse_response(d):
-	var resp = Response.new(d["trid"])
+	var resp = Response.new(d["id"], d["text"])
 	for cond in d["conditions"]:
 		resp.cond_ops.push_back(_parse_condition(cond))
 	return resp

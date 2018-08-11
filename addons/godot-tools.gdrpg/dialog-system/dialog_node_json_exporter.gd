@@ -23,7 +23,6 @@ func export_to_file(f):
 	var d = _build_config(_node)
 	f.store_string(to_json(d))
 	
-
 func _build_config(root):
 	var serialized = _serialize_node(root)
 	for child in root.children:
@@ -32,6 +31,7 @@ func _build_config(root):
 
 func _serialize_node(node):
 	var d = {
+		"id": node.id,
 		"name": node.name,
 		"text": node.text,
 		"resp_indicies": node.resp_indicies,
@@ -44,7 +44,8 @@ func _serialize_node(node):
 	}
 	for resp in node.responses:
 		var resp_d = {
-			"trid": resp.trid,
+			"id": resp.id,
+			"text": resp.text,
 			"conditions": [],
 		}
 		for cond_op in resp.cond_ops:
