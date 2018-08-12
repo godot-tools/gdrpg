@@ -16,7 +16,7 @@ signal removed
 
 func _ready():
 	_remove_btn.connect("pressed", self, "_remove_pressed")
-	$Description.connect("gui_input", self, "_gui_input")
+	_id.connect("gui_input", self, "_gui_input")
 
 func _gui_input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed and event.doubleclick:
