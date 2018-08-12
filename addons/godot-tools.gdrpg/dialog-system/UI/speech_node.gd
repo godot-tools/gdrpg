@@ -76,11 +76,10 @@ func _disconnect_slots():
 func reconnect_slots():
 	var graph = get_parent()
 	for child in dnode.children:
-		if child.resp_idx >= 0:
-			set_slot(child.resp_idx+2, false, 0, ColorN("white"), true, 1, ColorN("blue"))
-			var child_node = graph.get_speech_node(child.name)
-			child_node.set_slot(0, true, 1, ColorN("blue"), false, 0, ColorN("white"))
-			graph.connect_node(name, child.resp_idx, child.name, 0)
+		var child_node = graph.get_speech_node(child.name)
+		for resp_idx in child.resp_indicies:
+			set_slot(resp_idx+2, false, 0, ColorN("white"), true, 1, ColorN("blue"))
+			graph.connect_node(name, resp_idx, child.name, 0)
 
 func _gui_input(event):
 	if not event is InputEventMouseButton:
