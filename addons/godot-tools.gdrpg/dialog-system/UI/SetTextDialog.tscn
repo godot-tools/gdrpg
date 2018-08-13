@@ -2,7 +2,7 @@
 
 [ext_resource path="res://addons/godot-tools.gdrpg/dialog-system/UI/set_text_dialog.gd" type="Script" id=1]
 
-[node name="SetTextDialog" type="WindowDialog" index="0"]
+[node name="SetTextDialog" type="WindowDialog"]
 
 anchor_left = 0.0
 anchor_top = 0.0

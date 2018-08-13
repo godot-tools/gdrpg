@@ -4,36 +4,39 @@ extends GraphEdit
 
 const DNode = preload("res://addons/godot-tools.gdrpg/dialog-system/dnode.gd")
 const SpeechNode = preload("res://addons/godot-tools.gdrpg/dialog-system/UI/SpeechNode.tscn")
-const Exporter = preload("res://addons/godot-tools.gdrpg/dialog-system/dialog_node_json_exporter.gd")
-const Importer = preload("res://addons/godot-tools.gdrpg/dialog-system/dialog_node_json_importer.gd")
+const Exporter = preload("res://addons/godot-tools.gdrpg/dialog-system/dialog_node_sqlite_exporter.gd")
+#const Exporter = preload("res://addons/godot-tools.gdrpg/dialog-system/dialog_node_json_exporter.gd")
+#const Importer = preload("res://addons/godot-tools.gdrpg/dialog-system/dialog_node_json_importer.gd")
+const Importer = preload("res://addons/godot-tools.gdrpg/dialog-system/dialog_node_sqlite_importer.gd")
 
-
-onready var _root = get_node("DialogRoot")
+onready var root = get_node("DialogRoot")
 onready var _context_menu = get_node("NewNodePopup")
 
-var tree_path setget _set_tree_path
+var node_id setget _set_node_id
+
+signal node_updated
 
 func _ready():
+	root.connect("node_updated", self, "_node_updated")
 	_context_menu.connect("id_pressed", self, "_on_new_node")
 	connect("connection_request", self, "_connection_request")
 	connect("disconnection_request", self, "_disconnect_request")
-	set_dnode(DNode.new(_root.title, _root.name, Vector2(100, 80)))
-	
+	reset()
 
 func set_dnode(dnode):
 	_clear()
 	# Ensure that we have the correct name. This should already be case
 	# but can never be too sure with user provided data ¯\_(ツ)_/¯
-	dnode.name = _root.name
-	_root.dnode = dnode
-	_init_dnodes(_root)
+	dnode.name = root.name
+	root.dnode = dnode
+	_init_dnodes(root)
 
 func save():
-	var exporter = Exporter.new(_root.dnode)
-	exporter.export_node(tree_path)
+	var exporter = Exporter.new()
+	exporter.export_node(root.dnode)
 
 func is_root(node):
-	return node == _root
+	return node == root
 
 func sweep():
 	var used = {}
@@ -41,9 +44,12 @@ func sweep():
 	for conn in conns:
 		used[conn["to"]] = true
 	for child in get_children():
-		if child != _root and not used[child.name]:
+		if child != root and not used[child.name]:
 			remove_child(child)
 			child.queue_free()
+
+func reset():
+	set_dnode(DNode.new("", root.name, Vector2(100, 80)))
 
 func _init_dnodes(root_node):
 	var root = root_node.dnode
@@ -65,10 +71,14 @@ func _on_new_node(id):
 func _new_speech_node(dnode=null):
 	var node = SpeechNode.instance()
 	add_child(node)
+	node.connect("node_updated", self, "_node_updated")
 	if not dnode:
 		dnode = DNode.new("", node.name, Vector2(400, 100))
 	node.dnode = dnode
 	return node
+
+func _node_updated(node):
+	emit_signal("node_updated", node)
 
 func _gui_input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.pressed:
@@ -117,13 +127,14 @@ func _is_node_connected(node):
 	return false
 
 func _clear():
-	_root.clear_responses()
+	root.title = ""
+	root.clear_responses()
 	clear_connections()
 	for child in get_children():
-		if child != _root and  child is GraphNode:
+		if child != root and  child is GraphNode:
 			remove_child(child)
 			child.queue_free()
-	_root.dnode = null
+	root.dnode = null
 
 func get_speech_node(name):
 	for child in get_children():
@@ -131,18 +142,14 @@ func get_speech_node(name):
 			return child
 	return null
 
-func _set_tree_path(val):
-	if tree_path:
+func _set_node_id(val):
+	if node_id:
 		save()
-	tree_path = val
-	var f = File.new()
-	if f.file_exists(val):
-		_load(val)
-	else:
-		set_dnode(DNode.new("", _root.name, Vector2(100, 80)))
-	f.close()
+	node_id = val
+	_load()
 
-func _load(path):
+func _load():
 	var importer = Importer.new()
-	var dnode = importer.import_node(path)
-	set_dnode(dnode)
+	var dnode = importer.import_node(node_id)
+	if dnode:
+		set_dnode(dnode)

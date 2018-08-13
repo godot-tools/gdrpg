@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://addons/godot-tools.gdrpg/dialog-system/UI/dialog_editor_panel.gd" type="Script" id=1]
-[ext_resource path="res://addons/godot-tools.gdrpg/dialog-system/UI/DialogEditor.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/godot-tools.gdrpg/lib/SQLite.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/godot-tools.gdrpg/dialog-system/UI/DialogEditor.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/godot-tools.gdrpg/dialog-system/UI/dnode_list.gd" type="Script" id=4]
 
 [node name="DialogEditorPanel" type="PanelContainer" index="0"]
 
@@ -18,8 +20,13 @@ size_flags_vertical = 3
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin", "Mouse", "Size Flags" ]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." index="0"]
+[node name="SQLite" parent="." index="0" instance=ExtResource( 2 )]
 
+db_path = "res://addons/godot-tools.gdrpg/test.db"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." index="1"]
+
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -53,13 +60,37 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
 
-[node name="NewDTButton" type="Button" parent="VBoxContainer/HBoxContainer" index="0"]
+[node name="New" type="Button" parent="VBoxContainer/HBoxContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 47.0
+margin_right = 40.0
+margin_bottom = 20.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "New"
+flat = false
+align = 1
+
+[node name="Open" type="Button" parent="VBoxContainer/HBoxContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 44.0
+margin_right = 91.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -77,7 +108,32 @@ flat = false
 align = 1
 _sections_unfolded = [ "Mouse" ]
 
-[node name="DialogEditor" parent="VBoxContainer" index="1" instance=ExtResource( 2 )]
+[node name="Save" type="Button" parent="VBoxContainer/HBoxContainer" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 95.0
+margin_right = 136.0
+margin_bottom = 20.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+disabled = true
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Save"
+flat = false
+align = 1
+
+[node name="DialogEditor" parent="VBoxContainer" index="1" instance=ExtResource( 3 )]
 
 visible = false
 margin_top = 24.0
@@ -107,18 +163,150 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Mouse", "Size Flags" ]
 
-[node name="FileDialog" type="FileDialog" parent="." index="1"]
+[node name="DNodeList" type="WindowDialog" parent="." index="2"]
 
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
+margin_right = 382.0
+margin_bottom = 312.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+popup_exclusive = false
+window_title = ""
+resizable = false
+script = ExtResource( 4 )
+
+[node name="ScrollContainer" type="ScrollContainer" parent="DNodeList" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -50.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = true
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+scroll_horizontal_enabled = true
+scroll_horizontal = 0
+scroll_vertical_enabled = true
+scroll_vertical = 0
+scroll_deadzone = 0
+_sections_unfolded = [ "Anchor", "Margin" ]
+
+[node name="ItemList" type="ItemList" parent="DNodeList/ScrollContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 362.0
+margin_bottom = 252.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = true
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+items = [  ]
+select_mode = 0
+allow_reselect = false
+icon_mode = 1
+fixed_icon_size = Vector2( 0, 0 )
+_sections_unfolded = [ "Size Flags" ]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DNodeList" index="2"]
+
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 9.0
+margin_top = -40.0
+margin_right = -10.0
+margin_bottom = -10.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+alignment = 2
+_sections_unfolded = [ "Anchor", "Margin", "Size Flags" ]
+
+[node name="Okay" type="Button" parent="DNodeList/HBoxContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 261.0
+margin_right = 305.0
+margin_bottom = 30.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+disabled = true
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Okay"
+flat = false
+align = 1
+
+[node name="Cancel" type="Button" parent="DNodeList/HBoxContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 309.0
+margin_right = 363.0
+margin_bottom = 30.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Cancel"
+flat = false
+align = 1
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="." index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 607.0
-margin_bottom = 407.0
-rect_min_size = Vector2( 600, 400 )
+margin_right = 468.0
+margin_bottom = 77.0
+rect_min_size = Vector2( 200, 70 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -126,17 +314,10 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 popup_exclusive = true
-window_title = "Save a File"
-resizable = true
+window_title = "Overwrite?"
+resizable = false
+dialog_text = "Tree with this ID already exists, are you sure you wish to overwrite it?"
 dialog_hide_on_ok = true
-mode_overrides_title = true
-mode = 4
-access = 0
-filters = PoolStringArray( "*.dt ; DialogTree files" )
-show_hidden_files = false
-current_dir = "res://"
-current_file = ""
-current_path = "res://"
-_sections_unfolded = [ "Mouse", "Popup", "Rect", "Size Flags" ]
+_sections_unfolded = [ "Dialog", "Size Flags" ]
 
 

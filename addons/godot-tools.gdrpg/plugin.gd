@@ -12,7 +12,7 @@ func _enter_tree():
 	# Custom types
 	add_custom_type("Database", "Node", preload("res://addons/godot-tools.gdrpg/dialog-system/database.gd"), null)
 	add_custom_type("DialogTree", "Node", preload("res://addons/godot-tools.gdrpg/dialog-system/dialog_tree_node.gd"), null)
-	add_custom_type("SQLiteDB", "Node", preload("res://addons/godot-tools.gdrpg/sqlite/sqlitedb.gd"), null)
+	add_custom_type("SQLiteDB", "Node", preload("res://addons/godot-tools.gdrpg/lib/sqlite.gd"), null)
 	
 	# Dialog Editor
 	rpgPlugin = preload("res://addons/godot-tools.gdrpg/RPGPlugin.tscn").instance()
@@ -47,9 +47,6 @@ func make_visible(visible):
 		rpgPlugin.show()
 	else:
 		rpgPlugin.hide()
-
-func save_external_data():
-	rpgPlugin.get_node("TabContainer/Dialog Editor/DialogEditorPanel").editor.save()
 
 func has_main_screen():
 	return true
