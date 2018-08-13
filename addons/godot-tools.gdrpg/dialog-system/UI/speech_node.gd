@@ -12,6 +12,8 @@ onready var text = _say.text setget _set_text
 
 var dnode setget _set_dnode
 
+signal node_updated
+
 func _ready():
 	connect("resize_request", self, "_resize_request")
 	connect("close_request", self, "_close_request")
@@ -103,6 +105,7 @@ func _set_text(val):
 	var tr = tr(text)
 	_say.text = tr if tr else text
 	dnode.text = text
+	emit_signal("node_updated", dnode)
 
 func _set_dnode(val):
 	if not val:
@@ -121,6 +124,7 @@ func _set_dnode(val):
 func _set_id(val):
 	title = val
 	dnode.id = val
+	emit_signal("node_updated", dnode)
 
 func _get_id():
 	return title

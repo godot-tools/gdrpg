@@ -7,20 +7,15 @@ enum COND_TYPE {
 	SCRIPT
 }
 
-var _node
-
-func _init(node):
-	_node = node
-
-func export_node(path):
+func export_node(path, node):
 	var f = File.new()
 	f.open(path, File.WRITE)
-	export_to_file(f)
+	export_to_file(f, node)
 	f.close()
 	return f.get_error()
 
-func export_to_file(f):
-	var d = _build_config(_node)
+func export_to_file(f, node):
+	var d = _build_config(node)
 	f.store_string(to_json(d))
 	
 func _build_config(root):
