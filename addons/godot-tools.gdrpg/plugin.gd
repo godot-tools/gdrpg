@@ -10,9 +10,7 @@ var tree_path = "res://test.dt"
 
 func _enter_tree():
 	# Custom types
-	add_custom_type("Database", "Node", preload("res://addons/godot-tools.gdrpg/dialog-system/database.gd"), null)
 	add_custom_type("DialogTree", "Node", preload("res://addons/godot-tools.gdrpg/dialog-system/dialog_tree_node.gd"), null)
-	add_custom_type("SQLiteDB", "Node", preload("res://addons/godot-tools.gdrpg/lib/sqlite.gd"), null)
 	
 	# Dialog Editor
 	rpgPlugin = preload("res://addons/godot-tools.gdrpg/RPGPlugin.tscn").instance()
@@ -33,9 +31,7 @@ func _exit_tree():
 	rpgPlugin.free()
 	
 	# Custom Types
-	remove_custom_type("SQLiteDB")
 	remove_custom_type("DialogTree")
-	remove_custom_type("Database")
 
 func _create_gizmo():
 	gizmo = Button.new()
