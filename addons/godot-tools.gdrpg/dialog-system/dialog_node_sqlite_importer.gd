@@ -17,8 +17,36 @@ func import_node(id):
 	return node
 
 func _build_node(db, id):
+	var node = _get_node(db, id)
+	_build_responses(db, id, node.responses)
+	_build_connections(db, node)
+	print("children: ", node.children.size())
+	return node
+
+func _build_connections(db, node):
+	print("building connections for node: ", node.id)
+	for resp in node.responses:
+		print("building connection for resp ", resp.id)
+		var q = """
+		SELECT *
+		FROM DialogConnection
+		WHERE respid = '%s';
+		""" % [resp.id]
+		print(q)
+		var res = db.fetch_array(q)
+		if not res:
+			print("no res!")
+			continue
+		for row in res:
+			var child = _get_node(db, row["nodeid"])
+			child.resp_indicies.push_back(row["idx"])
+			node.children.push_back(child)
+			_build_responses(db, child.id, child.responses)
+			_build_connections(db, child)
+
+func _get_node(db, id):
 	var q = """
-	SELECT name, text, respidxs, posx, posy
+	SELECT name, text, posx, posy
 	FROM DialogNode 
 	WHERE id = '%s';
 	""" % id
@@ -28,14 +56,6 @@ func _build_node(db, id):
 	var d = res[0]
 	var pos = Vector2(float(d["posx"]), float(d["posy"]))
 	var node = DNode.new(id, d["name"], pos, d["text"])
-	_parse_resp_idxs(d["respidxs"], node.resp_indicies)
-	_build_responses(db, id, node.responses)
-	var children = _get_children(db, id)
-	for child_id in children:
-		var child = _build_node(db, child_id)
-		if not child:
-			return null
-		node.children.push_back(child)
 	return node
 
 func _build_responses(db, id, out):
@@ -72,22 +92,3 @@ func _build_cond_ops(db, id, out):
 		
 		if cond_op:
 			out.push_back(cond_op)
-
-func _parse_resp_idxs(resp_idxs, out):
-	var parts = resp_idxs.split(",")
-	for part in parts:
-		out.push_back(int(part))
-
-func _get_children(db, id):
-	var out = []
-	var q = """
-	SELECT id
-	FROM DialogNode
-	WHERE parentid = '%s';
-	""" % id
-	var res = db.fetch_array(q)
-	if not res:
-		return out
-	for entry in res:
-		out.push_back(entry["id"])
-	return out

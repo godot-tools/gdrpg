@@ -11,34 +11,47 @@ func export_node(node):
 	db.close()
 	return res
 
-func _write_to_db(db, root, parent=null):
-	var res = _write_node_to_db(db, root, parent)
+func _write_to_db(db, root):
+	var res = _write_node_to_db(db, root)
 	if res != OK:
 		return res
 	for child in root.children:
-		res = _write_to_db(db, child, root)
+		res = _write_to_db(db, child)
+		if res != OK:
+			return res
+		res = _write_connections(db, child, root)
 		if res != OK:
 			return res
 	return OK
-func _write_node_to_db(db, node, parent=null):
-	var respidxs = _serialize_resp_indicies(node.resp_indicies)
+func _write_node_to_db(db, node):
 	var q = """
 	INSERT OR REPLACE INTO 
-	DialogNode (id, name, text, respidxs, posx, posy) 
-	VALUES ('%s', '%s', '%s', '%s', %d, %d);
-	""" % [node.id, node.name, node.text, respidxs, node.pos.x, node.pos.y]
-	if parent:
-		q = """
-		INSERT OR REPLACE INTO 
-		DialogNode (id, parentid, name, text, respidxs, posx, posy) 
-		VALUES ('%s', '%s', '%s', '%s', '%s', %d, %d);
-		""" % [node.id, parent.id, node.name, node.text, respidxs, node.pos.x, node.pos.y]
+	DialogNode (id, name, text, posx, posy) 
+	VALUES ('%s', '%s', '%s', %d, %d);
+	""" % [node.id, node.name, node.text, node.pos.x, node.pos.y]
 	var res = _query(db, q)
 	if res != OK:
 		return res
 	for i in range(node.responses.size()):
 		var resp = node.responses[i]
 		res = _write_response(db, resp, node.id)
+		if res != OK:
+			return res
+	return OK
+
+func _write_connections(db, node, parent):
+	for resp_idx in node.resp_indicies:
+		var resp = parent.responses[resp_idx]
+		if not resp:
+			print("No resp!")
+			continue
+		print(resp_idx, " ", resp.id)
+		var q = """
+		INSERT OR REPLACE INTO
+		DialogConnection (idx, nodeid, respid)
+		VALUES (%d, '%s', '%s');
+		""" % [resp_idx, node.id, resp.id]
+		var res = _query(db, q)
 		if res != OK:
 			return res
 	return OK
@@ -81,9 +94,3 @@ func _new_cond_id(db):
 	if not res:
 		return 0
 	return res[0]["count"] + 1
-
-func _serialize_resp_indicies(idxs):
-	var s = ""
-	for resp_idx in idxs:
-		s += String(resp_idx) + ","
-	return s.substr(0, s.length()-1)
