@@ -2,7 +2,7 @@
 
 [ext_resource path="res://addons/godot-tools.gdrpg/dialog-system/UI/DialogEditorPanel.tscn" type="PackedScene" id=1]
 
-[node name="RPGPlugin" type="Control"]
+[node name="RPGPlugin" type="Control" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
