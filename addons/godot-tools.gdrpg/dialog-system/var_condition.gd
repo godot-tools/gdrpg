@@ -1,5 +1,7 @@
 tool
 
+extends Resource
+
 const OP_EQ = "=="
 const OP_NE = "!="
 const OP_LT = "<"
@@ -7,14 +9,9 @@ const OP_GT = ">"
 const OP_GTE = ">="
 const OP_LTE = "<="
 
-var left_var = ""
-var right_var = ""
-var op = OP_EQ
-
-func _init(left_var, op, right_var):
-	self.left_var = left_var
-	self.op = op
-	self.right_var = right_var
+export var left_var = ""
+export var right_var = ""
+export var op = OP_EQ
 
 func resolve(actor, db):
 	var v1 = db.get_var(left_var)

@@ -11,7 +11,10 @@ config_version=3
 [application]
 
 config/name="gdrpg"
-run/main_scene="res://addons/godot-tools.gdrpg/RPGPlugin.tscn"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "godot-tools.gdrpg" )
 
 [gdnative]
 
