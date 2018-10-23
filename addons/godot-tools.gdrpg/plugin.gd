@@ -11,6 +11,10 @@ func _enter_tree():
 	add_custom_type("DialogScriptCondition", "Resource", preload("res://addons/godot-tools.gdrpg/dialog-system/script_condition.gd"), null)
 	add_custom_type("DialogVarCondition", "Resource", preload("res://addons/godot-tools.gdrpg/dialog-system/var_condition.gd"), null)
 	
+	# Quests
+	add_custom_type("Quest", "Node", preload("res://addons/godot-tools.gdrpg/quests/quest.gd"), null)
+	add_custom_type("Task", "Node", preload("res://addons/godot-tools.gdrpg/quests/task.gd"), null)
+	
 	# AI
 	add_custom_type("BehaviorTree", "Node2D", preload("res://addons/godot-tools.gdrpg/ai/behaviors/behavior_tree.gd"), preload("res://addons/godot-tools.gdrpg/ai/icons/tree.png"))
 	add_custom_type("Selector", "Node2D", preload("res://addons/godot-tools.gdrpg/ai/behaviors/selector.gd"), preload("res://addons/godot-tools.gdrpg/ai/icons/selector.png"))
@@ -29,6 +33,10 @@ func _exit_tree():
 	remove_custom_type("Inverter")
 	remove_custom_type("Repeater")
 	remove_custom_type("Succeeder")
+	
+	# Quests
+	remove_custom_type("Task")
+	remove_custom_type("Quest")
 	
 	# Dialog
 	remove_custom_type("DialogNode")
