@@ -23,9 +23,17 @@ func _enter_tree():
 	add_custom_type("Repeater", "Node2D", preload("res://addons/godot-tools.gdrpg/ai/behaviors/repeater.gd"), preload("res://addons/godot-tools.gdrpg/ai/icons/repeater.png"))
 	add_custom_type("Succeeder", "Node2D", preload("res://addons/godot-tools.gdrpg/ai/behaviors/succeeder.gd"), preload("res://addons/godot-tools.gdrpg/ai/icons/succeeder.png"))
 	
-func _exit_tree():
+	# Creatures
+	add_custom_type("Creature", "KinematicBody2D", preload("res://addons/godot-tools.gdrpg/creatures/creature.gd"), null)
+	add_custom_type("Player", "KinematicBody2D", preload("res://addons/godot-tools.gdrpg/creatures/player/player.gd"), null)
 	
+func _exit_tree():
 	# Custom Types
+	
+	# Creatures
+	remove_custom_type("Player")
+	remove_custom_type("Creature")
+	
 	# AI
 	remove_custom_type("BehaviorTree")
 	remove_custom_type("Selector")
