@@ -7,16 +7,16 @@ export var allow_sprint = true
 
 var is_sprinting = false setget _set_sprint
 
-var collision_info
-
-var _ray_node
-
 signal dead
 signal moved
 signal sprint_state_changed
 
-func move_and_collide(motion):
-	.move_and_collide(motion)
+func move_and_update(motion):
+	var is_sprinting = allow_sprint and Input.is_action_pressed("sprint") and stats.attributes.stam > 0.0
+	var speed_mult = stats.sprint_multi if is_sprinting else 1.0
+	_set_sprint(is_sprinting)
+	motion = motion * stats.speed * speed_mult
+	move_and_slide(motion)
 	_check_stamina(motion)
 	emit_signal("moved", motion)
 
@@ -36,13 +36,14 @@ func _ready():
 func _process(delta):
 	if stats.attributes.hp <= 0:
 		die()
-
-func _physics_process(delta):
-	stats.tick()
+		return
 
 func _check_stamina(motion):
-	if motion.length() > 0.0 and is_sprinting:
+	var l = motion.length()
+	if l > 0.0 and is_sprinting:
 		stats.attributes.stam -= stats.sprint_cost
+	elif l == 0.0 or not is_sprinting:
+		stats.tick()
 
 func _set_sprint(val):
 	if not allow_sprint:
