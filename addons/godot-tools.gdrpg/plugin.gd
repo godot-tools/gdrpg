@@ -27,8 +27,14 @@ func _enter_tree():
 	add_custom_type("Creature", "KinematicBody2D", preload("res://addons/godot-tools.gdrpg/creatures/creature.gd"), null)
 	add_custom_type("Player", "KinematicBody2D", preload("res://addons/godot-tools.gdrpg/creatures/player/player.gd"), null)
 	
+	# Items
+	add_custom_type("Weapon", "Node2D", preload("res://addons/godot-tools.gdrpg/items/weapon.gd"), null)
+	
 func _exit_tree():
 	# Custom Types
+	
+	# Items
+	remove_custom_type("Weapon")
 	
 	# Creatures
 	remove_custom_type("Player")
