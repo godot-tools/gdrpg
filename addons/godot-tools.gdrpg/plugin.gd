@@ -3,6 +3,8 @@ tool
 extends EditorPlugin
 
 func _enter_tree():
+	# Resources
+	
 	# Custom types
 	add_custom_type("Blackboard", "Node2D", preload("res://addons/godot-tools.gdrpg/blackboard.gd"), preload("res://addons/godot-tools.gdrpg/blackboard.png"))
 	
@@ -28,11 +30,23 @@ func _enter_tree():
 	
 	# Items
 	add_custom_type("Weapon", "Node2D", preload("res://addons/godot-tools.gdrpg/items/weapon.gd"), null)
+	add_custom_type("Resistable", "Node2D", preload("res://addons/godot-tools.gdrpg/items/resistable.gd"), null)
+	add_custom_type("Armor", "Resistable", preload("res://addons/godot-tools.gdrpg/items/armor.gd"), null)
+	add_custom_type("ArmorSet", "Node2D", preload("res://addons/godot-tools.gdrpg/items/armor_set.gd"), null)
+	
+	# Utility
+	add_custom_type("AnimatedSpriteSheet", "Sprite", preload("res://addons/godot-tools.gdrpg/util/animated_sprite.gd"), null)
 	
 func _exit_tree():
 	# Custom Types
 	
+	# Utility
+	remove_custom_type("AnimatedSpriteSheet")
+	
 	# Items
+	remove_custom_type("ArmorSet")
+	remove_custom_type("Armor")
+	remove_custom_type("Resistable")
 	remove_custom_type("Weapon")
 	
 	# Creatures
@@ -56,6 +70,8 @@ func _exit_tree():
 	remove_custom_type("DialogVarCondition")
 	
 	remove_custom_type("Blackboard")
+	
+	# Resources
 	
 func get_plugin_name():
 	return "GRPG"
